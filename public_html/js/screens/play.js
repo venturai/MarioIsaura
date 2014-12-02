@@ -1,4 +1,4 @@
-game.Playscreen = me.ScreenObject.extend({
+game.PlayScreen = me.ScreenObject.extend({
 	/**
 	 *  action to perform on state change
 	 */
@@ -8,7 +8,7 @@ game.Playscreen = me.ScreenObject.extend({
                 
                 me.levelDirector.loadLevel("IsauraLevel01");
                 
-                this.resetPlayer();
+                this.resetPlayer(0, 400);
                 
                 me.input.bindKey(me.input.KEY.RIGHT, "right");
 
@@ -26,8 +26,8 @@ game.Playscreen = me.ScreenObject.extend({
 		me.game.world.removeChild(this.HUD);
 	},
         
-        resetPlayer: function(){
-            var player = me.pool.pull("mario", 0, 420, {});
+        resetPlayer: function(x, y){
+            var player = me.pool.pull("mario", x, y, {});
             me.game.world.addChild(player, 3);
         }
 });
