@@ -12,6 +12,7 @@ var game = {
 	// Run on page load.
 	"onload" : function () {
             me.pool.register("mario", game.PlayerEntity, true);
+            me.pool.register("BadGuy", game.BadGuy);
             
             me.pool.register("levelTrigger", game.LevelTrigger);
             
@@ -40,7 +41,7 @@ var game = {
 	// Initialize melonJS and display a loading screen.
 	me.state.change(me.state.LOADING);
 },
-
+         
 	// Run on game resources loaded.
 	"loaded" : function () {
 		me.state.set(me.state.MENU, new game.TitleScreen());
