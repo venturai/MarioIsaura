@@ -4,7 +4,7 @@ game.TitleScreen = me.ScreenObject.extend({
 	 */
 	onResetEvent: function() {	
 		me.game.world.addChild( new me.Sprite (0, 0, me.loader.getImage('title-screen')), -10);
-                me.input.bindKey(me.input.ENTER, "start");
+                me.input.bindKey(me.input.KEY.ENTER, "start");
                 
                 me.game.world.addChild(new (me.Renderable.extend ({
                     init: function(){
@@ -14,13 +14,14 @@ game.TitleScreen = me.ScreenObject.extend({
                     
                     draw: function(renderer){
                         this.font.draw(renderer.getContext(), "Marioish", 450, 130);
-                        this.font.draw(renderer.getContext(), " Press ENTER To Play!", 250, 350);
+                        this.font.draw(renderer.getContext(), "Press ENTER To Play", 250, 530);
                     }
                     
                 })));
                 
               
-                this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, Keycode, edge){
+                this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge){
+                  
                     if(action === "start"){
                         me.state.change(me.state.PLAY);
                     }
@@ -33,6 +34,6 @@ game.TitleScreen = me.ScreenObject.extend({
 	 */
 	onDestroyEvent: function() {
 		me.input.unbindKey(me.input.KEY.ENTER);
-                me.event.unsubsccribe(this.handler);
+                me.event.unsubscribe(this.handler);
 	}
 });
