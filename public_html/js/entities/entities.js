@@ -26,20 +26,24 @@ game.PlayerEntity = me.Entity.extend({
         
         if(me.input.isKeyPressed("right")){
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-            this.renderable.setCurrentAnimation("smallWalk");
-        }else{
+        }
+        else if (me.input.isKeyPressed("left")) {
+            this.body.vel.x -= this.body.accel.x * me.timer.tick;
+        }
+        else{
             this.body.vel.x = 0;
         }
         
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
-        
+    
         if(this.body.vel.x !== 0){
             if (!this.renderable.isCurrentAnimation("smallWalk")) {
                 this.renderable.setCurrentAnimation("smallWalk");
                 this.renderable.setAnimationFrame();
             }
-        }else{
+        }        
+        else{
             this.renderable.setCurrentAnimation("idle");
         }
         
@@ -84,6 +88,21 @@ game.BadGuy = me.Entity.extend({
                     return (new me.Rect(0, 0, 60, 128)).toPolygon();
                 }
         }]);
+    
+    this.spritewidth = 60;
+    var width = settings.width;
+    x = this.pos.x;
+    this.startX = x;
+    this.endX = + width - this.spritewidth;
+    this.pos.x = x + width -this.spritewidth;
+    this.updateBounds();
+    
+    this.alwaysUpdate = true;
+    
+    this.walkLeft = false;
+    this.alive = true;
+    this.type = "badguy";
+    
     },
     
     update: function(delta){
