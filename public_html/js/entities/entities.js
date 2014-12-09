@@ -54,7 +54,9 @@ game.PlayerEntity = me.Entity.extend({
     },
     
     collideHandler: function(response){
-        
+        if(responce.b.type === 'badguy'){
+            me.state.change(me.state.MENU)
+        }
     }
     
 });
@@ -99,13 +101,43 @@ game.BadGuy = me.Entity.extend({
     
     this.alwaysUpdate = true;
     
+    //This line of code tells the badguy which way to walk and if hes alive.//
+    
     this.walkLeft = false;
     this.alive = true;
     this.type = "badguy";
     
+    //this.renderable.addAnimation("run", [0, 1, 2], 80);
+    //this.renderable.setCurrentAnimation("run");
+    
+    // this line of code tells how fast our guy goes.
+    this.body.setVelocity(4, 6);
+    
     },
     
     update: function(delta){
+        this.body.update(delta);
+        me.collision.check(this, true, this.collideHandler.bind(this), true);
+        
+        if(this.alive){
+            if(this.walkLeft && this.pos.x <= this.startX){
+                this.walkLeft = false;
+            }else if(!this.walkLeft && this.pos.x >= this.endX){
+                this.walkLeft = true;
+            }
+            this.flipX(!this.walkLeft);
+            this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timmer.tick;
+            
+        }else{
+            me.game.world.removeChild(this);
+        }
+        
+        
+        this._super(me.Enitity,"update", [delta]);
+        return true;
+    }
+    
+    collideHandler: function(){
         
     }
 });
